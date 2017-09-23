@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>
+            Hello World!
+        </title>
+        <link rel='stylesheet' hrof='/stylesheets/'>
+    </head>
+
+    <body>
+        <div id="divl" />
+
+        <script>//定义客户端脚本
+            //创建段落
+            var para=document.createElement("p");//创建了一个新的 <p> 元素
+            var node=document.createTextNode("Hello World! ");//向 <p> 元素添加文本，创建文本节点
+            para.appendChild(node);//向<p>元素追加文本节点
+
+            //加入页面
+            var element=document.getElementById("divl");//查找到一个已有的元素
+            element.appendChild(para);//向这个已存在的元素追加新的元素
+        </script>
+    </body>
+</html>
