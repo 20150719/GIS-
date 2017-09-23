@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Hello World!
+    </title>
+    <link rel='stylesheet' hrof='/stylesheets/style.css'>
+</head>
+
+<body>
+    <div id="divl" />    
+    <script>
+       //加入段落
+       var element = document.getElementById("divl");
+       //创建段落
+       var c=document.createElement("canvas");//找到<canvas>元素
+       //创建context对象
+       var cts=c.getContext("2d");//getContexts("2d")对象是内建的HTML5对象，拥有多种昂绘制及添加图像的方法
+       //绘制一个150*75的红色矩形
+       cts.fillStyle="#FF0000";
+       cts.fillRect(0,0,150,75);
+       //画线
+       cts.moveTo(0,0);//定义线条起始坐标
+       cts.lineTo(200,100);//定义线条终止坐标
+       cts.stroke();//使用stroke方法来绘制线条
+       cts.beginPath();
+       cts.arc(50,50,50,0,360);
+       cts.stroke();
+       element.appendChild(c);
+
+       window.onresize=clicki;
+       
+       function clicki(id){
+           var element=document.getElementById("divl");
+           var w=element.clientWidth;
+           var h=element.clientHeight;
+           console.log("w: %d,h: %d",w,h);
+       }
+    </script>
+</body>
+</html>
