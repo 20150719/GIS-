@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            最佳工作序列
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        </head>
+
+    <body>
+        <table>
+        <tr>
+            <p align="center">最佳工作序列计算</p>
+         </tr>
+         <tr>
+            <p align="center" style="font-size:12px;margin-top:-20px;">注：用“ ”隔开输入的值</p>
+         </tr>
+        <tr>
+            <p align="center">请输入任务的总数：<input type="text" id = "n" /> </p>
+         </tr>
+         <tr>
+            <p align="center">请输入各个任务的序号：<input type="text" id = "id" /></p>  
+         </tr>
+          <tr>
+            <p align="center">请输入各个任务的费时：<input type="text" id = "cost" /></p>
+          </tr>
+          <tr>
+            <p align="center">请输入各个任务的最后完成期限：<input type="text" id = "deadline" /> </p> 
+          </tr>  
+          <tr>
+            <p align="center">请输入各个任务的价值：<input type="text" id = "value" /></p>
+         </tr>  
+         <tr>
+            <center><input  type="button" value="计算" onclick="cal()"></center> 
+        </tr>    
+        </table>
+        <table border="1" WIDTH=400px HEIGHT=100px align="center">
+            <tr>
+              <td>结果：
+                <p id="result" width=400px>
+                </p> 
+              </td>
+            </tr>
+        </table>
+    <script>
+            //创建数组存入数据
+            var a = new Array();  //先声明一维 
+             for(var i=0;i<4;i++)//一维长度为n
+             {
+                  a[i]=new Array(); //声明二维 
+                  for(var j=0;j<n;j++)//初始化
+                     {     
+                         a[i][j]=0;    
+                     }
+             }         
+            function cal()
+            {
+                var n=0,id=0,cost=0,deadline=0,value=0; 
+                n=document.getElementById("n").value; 
+                id=document.getElementById("id").value.split(" "); 
+                cost=document.getElementById("cost").value.split(" "); 
+                deadline=document.getElementById("deadline").value.split(" "); 
+                value=document.getElementById("value").value.split(" "); 
+                
+                for(var i=0;i<n;i++)// 存入数据
+                {                      
+                    a[0][i]=parseInt(id[i]);  
+                    a[1][i]=parseInt(cost[i]); 
+                    a[2][i]=parseInt(deadline[i]); 
+                    a[3][i]=parseInt(value[i]); 
+
+                } 
+                //排序
+                for ( i = 0; i < n; i++)
+                {
+                    for ( j = 0; j < n - 1 - i; j++) 
+                    {
+                        if (a[3][j]/a[1][j] > a[3][j+1]/a[i][j+1]) // 对比单位时间内的价值
+                        {   
+                            for(var k=0;k<4;k++) 
+                            {
+                                var t = a[k][j+1];        
+                                a[k][j+1] =a[k][j];
+                                a[k][j] = t;
+                            }
+                        }
+                    }
+                }
+                //查找
+                for(j=0;j<n;j++)
+                {
+                    for(i=0;i<n;i++)
+                    {
+                        for(var k=0;k<n;k++)
+                        {
+                            var cost=0;
+                            var m = new Array();  //存储序列
+                            var tem=new Array();
+                            var tempresult=new Array;//总价值
+                            tempresult[k]=0;
+                            if(a[2][i]>=cost)
+                            {
+                             tempresult[k]+=a[3][i];
+                             m[j]=a[0][j];
+                             cost=cost+a[1][i];
+                            }
+                            else
+                            {
+                            continue;     
+                            }
+                            tem[k]=m[j];
+                            if(tempresult[k-1]>tempresult[k])
+                            {
+                                tempresult[k]=tempresult[k-1];
+                                var t=tempresult[k];
+                                tem[k]=tem[k-1];
+                                m[j]=tem[k];
+
+                            }
+                       }
+                    }
+                    document.getElementById("result").innerHTML="总价值为："+t+"<p></p>"+"最佳工作序列为：";
+                    for(var k=0;k<m.length;k++)//输出序列
+                    {
+                        document.getElementById("result").innerHTML+=(m[k]+" ");
+                     }
+                     break;                 
+                }
+            }             
+
+        </script>
+
+    </body>
+</html>
