@@ -1,0 +1,257 @@
+<!Doctype html> 
+<html> 
+	<head> 
+	<title>数字化名字显示</title> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	</head> 
+	
+<body > 
+    请选择输入文件： 
+	<input type="file" id="file" multiple="mutifile" > 
+	<br />
+	请选择要进行的操作：
+    <form> 
+        <select id="style"> 
+        <option value="Arial">等线体</option> 
+		<option value="rightmove">右移</option> 
+		<option value="leftmove">左移</option>
+		<option value="Narrow">缩小</option> 
+		<option value="Amplifier">放大</option>
+		<option value="SongJian">耸肩</option>
+		<option value="LeftSlant">左斜</option>
+		<option value="Symmetry">左右翻转</option> 
+		<option value="ClockwiseRotate">顺时针旋转90°</option>
+        </select> 
+    </form> 	
+	<br />
+	<button class="button"  onclick="draw()">提交</button>
+	<p align="center"></palign><canvas id="canvas" width="570" height="320" style="border:1px solid #000;"></canvas> </p>
+   
+<script> 
+
+		var temp=canvas.getContext('2d'); 
+     	var X = 20; var Y = 50; //田字格起始位置X  
+	    var a = 15;  //田字格边长 
+	    var d = 300; //田字格间隔 
+	    //绘制田字格
+		//ctx.clearRect(0,0,canvas.width,canvas.height);//清空画布
+		for(var k=0;k<2;k++) 
+		{	 //画纵线 
+		   for(var i=0;i<16;i++) 
+		   { 
+				temp.beginPath(); 
+				temp.moveTo(X+a*i+k*d, Y); 
+				temp.lineTo(X+a*i+k*d, a*15 + Y); 
+				temp.stroke(); 
+			} 
+			//画横线 
+			for(var i=0;i<16;i++) 
+			{ 
+				temp.beginPath(); 
+				temp.moveTo(X+k*d,Y+a*i); 
+				temp.lineTo(X+ a*15 +k*d,Y+a*i); 
+				temp.stroke(); 
+			} 
+		} 
+	function draw() 
+	{ 
+		var files = document.getElementById('file').files; //读取文件
+		for(var i=0;i<files.length;i++) 
+		{ 
+			var file = files[i]; 
+			var reader = new FileReader(); 
+			var content = null; var n=0;
+			reader.readAsText(file);  
+			reader.onload = function(f) 
+			{ 
+				content = this.result; 
+				var line = content.split('\r\n'); 
+		        var count = 0; 				
+		        for(var j=0;j<line.length;j++) 
+		        { 
+			        var str = line[j]; 
+			        if(str=='END') 
+			        {		 
+				        temp.stroke(); 
+				        count = 0; 
+			        } 
+					if(document.getElementById("style").value=="Arial")//等线体
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			         } 
+					}
+					if(document.getElementById("style").value=="rightmove")//右移
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+160,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+160,point[1]*a+Y); 
+			         } 
+					}
+					if(document.getElementById("style").value=="leftmove")//左移
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+80-100,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+80-100,point[1]*a+Y); 
+			         } 
+					}
+					if(document.getElementById("style").value=="Narrow")//缩小
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo((point[0]*10)*0.8+210*n+100,(point[1]*a)*0.8+Y+30); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo((point[0]*10)*0.8+210*n+100,(point[1]*a)*0.8+Y+30); 
+			         } 
+					}
+					if(document.getElementById("style").value=="Amplifier")//放大
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo((point[0]*10)*1.5+210*n+30,(point[1]*a)*1.5+Y-60); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo((point[0]*10)*1.5+210*n+40,(point[1]*a)*1.5+Y-60); 
+			         } 
+					}
+					if(document.getElementById("style").value=="SongJian")//耸肩
+					{
+			        var point = str.split(','); 
+					point[1]=10-((10-point[1])-(10-point[0])*(Math.tan(15/180*Math.PI)));
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			         } 
+					}
+					if(document.getElementById("style").value=="LeftSlant")//左斜
+					{
+					var point = str.split(','); 
+					point[0]=(point[0]-10)-(10-point[1])*(Math.tan(15/180*Math.PI))+10;
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			        } 
+					}
+					if(document.getElementById("style").value=="Symmetry")//左右翻转
+					{
+			        var point = str.split(','); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(-(point[0]*11+210*n)+450,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(-(point[0]*11+210*n)+450,point[1]*a+Y); 
+			         } 
+					}
+					if(document.getElementById("style").value=="ClockwiseRotate")//顺时针旋转90°
+					{
+			        var point = str.split(','); 
+					var t=point[0]; 
+                    point[0]=(10-point[1])+10; 
+                    point[1]=10-(-(t-10)); 
+			        if(point.length<2) 
+			        { 
+			      	    count = 1; 
+		        	} 
+			        if(count == 1) 
+		        	{	 
+			    	temp.beginPath(); 
+			      	temp.moveTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			       	count++; 
+			        } 
+			        else 
+			        { 
+					    temp.lineTo(point[0]*11+210*n+80,point[1]*a+Y); 
+			         } 
+					}
+		         } 
+				n++; 
+			}
+		} 
+	} 
+
+
+
+ 
+ 
+</script>  
+</body> 
+</html> 
